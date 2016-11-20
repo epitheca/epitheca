@@ -1,2 +1,2 @@
 # paloman
-Naturalist Data Management System
+Naturalist Data Management System for free people
