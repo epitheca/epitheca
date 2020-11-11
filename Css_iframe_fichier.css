@@ -1,0 +1,60 @@
+/*Divs pour le contenant des fichiers joints
+ */
+
+/*Corps de la page*/
+body {
+font-family:Arial;
+font-size:2vw;
+}
+
+.fichier_contenant{
+float:center;
+width:890px;
+overflow:hidden;
+margin-left:auto;
+margin-right:auto;
+} 
+
+.fichier_affichage_image{
+float:left;
+width:200px;
+height:200px;
+overflow:hidden;
+text-align:center;
+margin-right:12px;
+background-color:rgb(175,199,254);
+} 
+
+.fichier_affichage_son{
+float:left;
+width:200px;
+height:50px;
+margin-top:68px;
+margin-right:12px;
+} 
+
+.fichier_supprimer{
+float:left;
+width:200px;
+overflow:hidden;
+text-align:center;
+margin-right:12px;
+}
+
+.fichier_ajouter{
+float:left;
+width:890px;
+overflow:hidden;
+}
+
+.spacer {
+  clear: both;
+}
+
+input
+
+
+/*Ancre*/
+A {
+text-decoration:none; 
+}
