@@ -162,13 +162,13 @@ $dateen= $_POST['date'];
 	
 			//C'était le bouton annuler
 			if (isset($_POST['annuler_sp'])) $sps="0";
-						
 			FormDonnees ($dateen, $longitude, $latitude, $sps, "X", "X", "X", "X", $corine1, $corine2, $corine3, $corine4, $obs1, $obs2, $obs3, $origineDonnee, $choix, $vent, $cond_clim, $temp, $riviere, $route, '', 'INSERTION', '', $bd); 
 			Tabdonnees ($dateen, $latitude, $longitude, $obs1, $corine1, $corine2, $corine3, $corine4, $vent, $cond_clim, $temp, $riviere, $route, $bd);
 		}
 		
 	if (isset($_POST['valider_final']))
     {
+		
 			$abo= $_POST['abo'];
 			$info_1= $_POST['info_1'];
 			$info_2= $_POST['info_2'];
@@ -195,7 +195,7 @@ $dateen= $_POST['date'];
 						
 						//On annule le fichier
 						$fichier="";
-						
+					
 			
 						// Réaffichage du formulaire avec les valeurs saisies
 						FormDonnees ($date, $longitude, $latitude, "", $abo, $info_1, $info_2, $sexe, $corine1, $corine2, $corine3, $corine4, $obs1, $obs2, $obs3, $origineDonnee, $choix, $vent, $cond_clim, $temp, $riviere, $route, $remarques, 'INSERTION', $fichier, $bd);
@@ -215,7 +215,7 @@ $dateen= $_POST['date'];
 						if ($choix=="1") $choix="DETERMINATEUR";
 						if ($choix=="2") $choix="COLLECTEUR";
 						if ($choix=="3") $choix="RAPPORTEUR";
-						echo $choix;
+						
 						//Ajout de Fichier ?
 						if ($fichier_joint<>"X")
 						{
