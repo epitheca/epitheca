@@ -14,6 +14,6 @@ Epitheca, fait le pari de l'utilisation de standards simples en reconnaissant l'
     Le référentiel taxonomique est le TAXREF
 
 Ainsi en utilisant epitheca vous pouvez fournir vos données à qui vous le souhaitez en exportant simplement un fichier tableur depuis la base.
-epitheca.fr étant basé sur le programme libre epitheca, vous pouvez le stocker sur votre propre serveur, créer et utiliser se système pour votre association naturaliste et transférer facilement des données d'une instance à une autre.
+Epitheca étant un programme libre, vous pouvez le stocker sur votre propre serveur, créer et utiliser se système pour votre association naturaliste et transférer facilement des données d'une instance à une autre.
 
 Avec epitheca, vous restez maître de vos données naturalistes. 
