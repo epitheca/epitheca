@@ -8,7 +8,7 @@ if ($nbrtotal<>0)
     <div class='titre'>Vos dernières données saisies</div><br>
 <?php
 //Extraction des deux lettres du groupe
-	$resultat  = $bd->execRequete ("SELECT * FROM donnees ORDER BY numero DESC LIMIT 0, 6 "); 
+	$resultat  = $bd->execRequete ("SELECT * FROM donnees WHERE (obs_1='$code_obs' OR obs_2='$code_obs' OR obs_3='$code_obs') ORDER BY numero DESC LIMIT 0, 6 "); 
   while ($bo = $bd->objetSuivant ($resultat))
    {
 	   ?>  
