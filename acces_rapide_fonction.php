@@ -33,6 +33,7 @@ if (isset($_POST['acces_rapide']))
 		$controle= Controle_droit_donnee ($_POST['numero'], $_POST['code_obs'], $bd);
 			
 			//Construction de l'URL en fonction des droits
+			$numero=$_POST['numero'];
 			if ($controle =="oui") $url="Ajout.php?mode=completer&numero=$numero";
 			else $url="https://epitheca.fr";
 				?>	
