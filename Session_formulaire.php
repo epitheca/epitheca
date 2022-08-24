@@ -1,5 +1,5 @@
 <!--
-Copyright Mathieu MONCOMBLE (mathieu.moncomble@epitheca.fr) 2009-2020
+Copyright Mathieu MONCOMBLE (mathieu.moncomble@epitheca.fr) 2009-2022
 
 This file is part of epitheca.
 

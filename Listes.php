@@ -283,6 +283,7 @@ function form_abondance ($abondance,$bd)
 //Bloc pour les espèces
 function form_espece ($sps, $info_1, $info_2, $sexe, $bd)
 {
+
   	//Recherche du groupe de l'espèce
 	$groupe=ChercheGroupeSp ($sps, $bd);
 	
@@ -340,6 +341,7 @@ function form_espece ($sps, $info_1, $info_2, $sexe, $bd)
 //Bloc pour les espèces
 function form_espece_simple ($groupe, $sps, $margegauche, $largeur, $bd)
 {
+	
 	if ($sps=="") $sps="%";
 
 	//Recherche du numéro pour le tampon
@@ -376,33 +378,29 @@ function form_espece_test ($sps, $bd)
   while ($bo = $bd->objetSuivant ($resultat))
    {	
 			//liste pour les espèces
-			$resultat2  = $bd->execRequete ("SELECT * FROM $bo->Code_classe_ordre");
+			$resultat2  = $bd->execRequete ("SELECT DISTINCT NOM_COMPLET, CD_REF FROM $bo->Code_classe_ordre WHERE 1");
 			while ($spsl = $bd->objetSuivant ($resultat2))
 				{
-					?><option value="<?php echo $spsl->NOM_COMPLET;?>" data-xyz = "<?php echo $spsl->CD_REF;?>"><?php echo$spsl->NOM_COMPLET;?></option>
+					?><option value="<?php echo $spsl->NOM_COMPLET;?>" data-xyz = "<?php echo $spsl->CD_REF;?>"><?php echo $spsl->NOM_COMPLET;?></option>
 				    <?php
-
                 }
-                
 	}
-    
     //Sélection des goupes
 	$resultat  = $bd->execRequete ("SELECT * FROM classe_ordre WHERE Code_classe_ordre <> 1");
   while ($bo = $bd->objetSuivant ($resultat))
    {	
+
 			//liste pour les espèces
-			$resultat3  = $bd->execRequete ("SELECT * FROM $bo->Code_classe_ordre GROUP BY NOM_VERN");
+			
+			$resultat3  = $bd->execRequete ("SELECT DISTINCT NOM_VERN, CD_REF FROM $bo->Code_classe_ordre WHERE 1");
 			while ($spsl = $bd->objetSuivant ($resultat3))
 				{
-					?><option value="<?php echo $spsl->NOM_VERN;?>" data-xyz = "<?php echo $spsl->CD_REF;?>"><?php echo$spsl->NOM_VERN;?></option>
+					//Ajout de l'option pour le nom complet
+					?><option value="<?php echo $spsl->NOM_VERN;?>" data-xyz = "<?php echo $spsl->CD_REF;?>"><?php echo $spsl->NOM_VERN;?></option>
 				    <?php
-
                 }
-                
-	}
-    
-    
-    
+               
+	}    
     
 	?>
 </datalist>

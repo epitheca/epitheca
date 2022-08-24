@@ -86,6 +86,5 @@ if ($control=="yes")
 </html>
 <?php
 }
-else echo "pouet";
 ?>
 

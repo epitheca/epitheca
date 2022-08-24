@@ -1,5 +1,5 @@
 <!--
-Copyright Mathieu MONCOMBLE (contact@epitheca.fr) 2009-2020
+Copyright Mathieu MONCOMBLE (contact@epitheca.fr) 2009-2022
 
 This file is part of epitheca.
 
@@ -38,7 +38,7 @@ while ($bo = $bd->objetSuivant ($resultat))
 
 //Transformation en Français
 $dateen=datesitetoserver ($date);
-
+$date=dateservertosite ($date);
 if ($i==0) $pasdedonnees="<center>Il n'existe actuellement aucune donnée pour ce lieu à cette date et pour cet observateur</center>"; 
 else $pasdedonnees="Voici les données attachées à ce lieu le $date :";
  echo "<span class='titre'>$pasdedonnees</span><br>";

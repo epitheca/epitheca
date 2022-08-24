@@ -760,7 +760,7 @@ function datesitetoserver($date)
     
 function dateservertosite($date)
 {
-return strftime('%d-%m-%Y',strtotime($date));
+return date('d-m-Y',strtotime($date));
 }
 
 function styleduselect ($margegauche, $largeur)

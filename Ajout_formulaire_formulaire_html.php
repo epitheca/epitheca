@@ -1,5 +1,5 @@
 <!--
-Copyright Mathieu MONCOMBLE (contact@epitheca.fr) 2009-2020
+Copyright Mathieu MONCOMBLE (contact@epitheca.fr) 2009-2022
 
 This file is part of epitheca.
 
@@ -171,6 +171,7 @@ else echo '<form method="post" action="Ajout.php" name="donnees">';
 		if ($espece=="")
 			{
 			form_espece_test ($espece, $bd);		
+			
 			?>
 			<input type="hidden" id="codeespecea" name="espece"/>
 			<input type="submit" id="button" name="valider_sp" value="Sélectionner"/>

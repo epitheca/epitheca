@@ -1,5 +1,5 @@
 <!--
-Copyright Mathieu MONCOMBLE (contact@epitheca.fr) 2009-2020
+Copyright Mathieu MONCOMBLE (contact@epitheca.fr) 2009-2022
 
 This file is part of epitheca.
 
@@ -27,8 +27,8 @@ include("Session_entete.html");
             <p class="sous-titre">Copyright</p>
 L’application epitheca est un système de gestion de données naturalistes dont le code source est ouvert.
 Il est dévellopé en PHP, CSS, Javascript et HTML5. Ce code est protégé par la licence GPL3.
-Le code source est publié sur la plateforme GitHub. L'ensemble du code est sous Copyright <a href="https://framasphere.org/people/2027e100824e0132ae4e2a0000053625">Mathieu MONCOMBLE</a> 2009-2020.<br>
-<br><i>Copyright Mathieu MONCOMBLE (<a href="mailto:contact@epitheca.fr">contact@epitheca.fr</a>) 2009-2020
+Le code source est publié sur la plateforme GitHub. L'ensemble du code est sous Copyright <a href="https://framasphere.org/people/2027e100824e0132ae4e2a0000053625">Mathieu MONCOMBLE</a> 2009-2022.<br>
+<br><i>Copyright Mathieu MONCOMBLE (<a href="mailto:contact@epitheca.fr">contact@epitheca.fr</a>) 2009-2022
 
 This file is part of epitheca.
 
