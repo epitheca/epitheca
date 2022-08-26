@@ -80,8 +80,6 @@ Entete ("epitheca.fr", "3", $code_obs, $bd);
 	if (isset ($_POST['filtre']))
 	$message = ControleFiltre($_POST) ;
 
-
-
 // Erreur de saisie détectée: on affiche le message en alerte en fenêtre Modal  
 	if (!empty($message))
 		{	  
@@ -135,14 +133,14 @@ else
 }
 
 //Agrégation de la requête
- $requete="$requete_groupee 
-GROUP BY info_1, info_2, obs_1, obs_2, obs_3,origineDonnee, numero, remarques, valide_le, valide_par, type_donnees, sexe, abondance, espece, obs_1, date, longitude, latitude, corine_1, corine_2, corine_3, corine_4, vent, meteo, temperature, riviere, route 
-ORDER by date DESC, longitude, latitude, Date DESC LIMIT $debut, $nombre_resultats";
+ $requete="$requete_groupee ORDER by date DESC, longitude, latitude, Date DESC LIMIT $debut, $nombre_resultats";
+
+//GROUP BY info_1, info_2, obs_1, obs_2, obs_3,origineDonnee, numero, remarques, type_donnees, sexe, abondance, espece, obs_1, date, longitude, latitude, corine_1, corine_2, corine_3, corine_4, vent, meteo, temperature, riviere, route 
 
 //Calcul du nombre de fiches
-$num_rows = $bd->nbResultats ($bd->execRequete("$requete_groupee 
-GROUP BY obs_1, obs_2, obs_3,origineDonnee, date, longitude, latitude, corine_1, corine_2, corine_3, corine_4, vent, meteo, temperature, riviere, route 
-ORDER by date DESC, longitude, latitude"));
+$num_rows = $bd->nbResultats ($bd->execRequete("$requete_groupee ORDER by date DESC, longitude, latitude"));
+
+//GROUP BY obs_1, obs_2, obs_3, origineDonnee, date, longitude, latitude, corine_1, corine_2, corine_3, corine_4, vent, meteo, temperature, riviere, route 
 
 //Calcul du nombre de données
 $num_donnees = $bd->nbResultats ($bd->execRequete ($requete_groupee));

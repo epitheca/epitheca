@@ -156,7 +156,8 @@ progression($indice);
     //Traitemant des apostrophes
     $temp=$bo->temperature;
 	$remarques=$bo->remarques;
-		$remarques=str_replace(array("\r\n", "\n", "\r"), ' ', $remarques);
+	if ($bo->remarques=='') $remarques='NULL';
+		else $remarques=str_replace(array("\r\n", "\n", "\r"), ' ', $remarques);
 		
 		//Recherche du type de données
 	if ($bo->type_donnees <> "CLASSIQUE")

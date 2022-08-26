@@ -19,7 +19,7 @@ This file is part of epitheca.
 <?php
 
 //Requete
-$requete="SELECT COUNT(*) AS nbr, numero, obs_1, date, longitude, latitude, corine_1, corine_2, corine_3, corine_4, vent, meteo, temperature, riviere, route  
+$requete="SELECT * 
 FROM donnees
 WHERE 
 (obs_1= '$code_obs' 
@@ -29,9 +29,10 @@ AND date BETWEEN '$dateenmin' AND '$dateenmax'
 AND latitude BETWEEN '$latitude_Y' AND '$latitude_X' 
 AND longitude BETWEEN '$longitude_X' AND '$longitude_Y'
 $filtre
-GROUP BY obs_1, date, longitude, latitude, corine_1, corine_2, corine_3, corine_4, vent, meteo, temperature, riviere, route 
-ORDER by numero DESC, date DESC, longitude, latitude, Date DESC LIMIT $debut, $nombre_resultats";
+ORDER by numero DESC, date DESC, longitude, latitude, date DESC LIMIT $debut, $nombre_resultats";
 
+
+//GROUP BY date, longitude, latitude  
 //Affichage des fiches
 
 //Ajout de la pagination
@@ -73,13 +74,32 @@ if ($num_rows<>0)
 			
 			<br>
 			
+				   
 			<!--Conteneur pour les fiches-->
 			<div class="conteneur">
 			<?php
 				//Début de la requête pour les fiches
+			
 				$resultat = $bd->execRequete ($requete); 
 				while ($bo = $bd->objetSuivant ($resultat))
 				{
+					//Regroupement par fiche
+					$requete2="SELECT date, latitude, longitude, COUNT(numero) 
+FROM donnees
+WHERE 
+(obs_1= '$code_obs' 
+OR obs_2= '$code_obs' 
+OR obs_3= '$code_obs') 
+AND date BETWEEN '$dateenmin' AND '$dateenmax' 
+AND latitude BETWEEN '$latitude_Y' AND '$latitude_X' 
+AND longitude BETWEEN '$longitude_X' AND '$longitude_Y'
+$filtre
+GROUP BY date, latitude, longitude
+ORDER by date DESC, longitude, latitude, date LIMIT $debut, $nombre_resultats";
+
+$resultat2 = $bd->execRequete ($requete2); 
+$nbr= $bd->nbResultats($resultat2);
+
 					//Transformation de la date
 					$datefr =dateservertosite ($bo->date);
 			?>
@@ -94,10 +114,12 @@ if ($num_rows<>0)
 					echo "<br>"."lat: $bo->latitude";
 					
 					echo"<br>";
-					if ($bo->nbr==1) $ortho="";
+					
+					//Orthographe
+					if ($nbr==1) $ortho="";
 					else $ortho="s";
+					
 					echo "<br>";
-                    
 					//Création des listes d'espèces
 					$liste="";
 					$resultata = $bd->execRequete ("SELECT * FROM donnees WHERE latitude='$bo->latitude' AND longitude='$bo->longitude' AND (obs_1='$code_obs' OR obs_2='$code_obs' OR obs_3='$code_obs') AND date='$bo->date'");
@@ -108,7 +130,7 @@ if ($num_rows<>0)
                         $liste .="$spscien->NOM_VALIDE<br>";
 					}
 				?>
-				<span class="info-droite-gauche" href="#"><?php echo "$bo->nbr donnée$ortho";?><span>
+				<span class="info-droite-gauche" href="#"><?php echo "$nbr donnée$ortho";?><span>
 				<?php echo $liste;?></span></span>
 				<?php
 				echo"<br>";
@@ -137,5 +159,3 @@ else
 
 		<?php
 }
-	
-

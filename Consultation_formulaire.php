@@ -73,6 +73,3 @@ This file is part of epitheca.
 		<p align=center><INPUT type="submit" name="filtre" value="Sélectionner les données"></p>
 		</fieldset>
 </div>
-	
-	
-

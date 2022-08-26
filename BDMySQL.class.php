@@ -55,10 +55,10 @@ else // Mais si elle rate...
 		return  mysqli_fetch_object ($resultat);    } 
   // Accès à la ligne suivante, sous forme de tableau associatif
   public function ligneSuivante ($resultat)
-    {   return  mysql_fetch_assoc ($resultat);  }
+    {   return  mysqli_fetch_assoc ($resultat);  }
   // Accès à la ligne suivante, sous forme de tableau indicé
   public function tableauSuivant ($resultat)
-    {   return  mysql_fetch_row ($resultat);  }
+    {   return  mysqli_fetch_row ($resultat);  }
  
   // Echappement des apostrophes et autres préparation à l'insertion
   public function prepareChaine($chaine)
