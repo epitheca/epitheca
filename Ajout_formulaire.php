@@ -78,7 +78,8 @@ $resultat  = $bd->execRequete ("SELECT * FROM donnees WHERE numero = '$numero'")
 		     
 //Transformation de la température en NULL et suppression de la virgule
 	if ($bo->temperature=='') $temp='NULL';
-	$temp= str_replace(',', '.', 	$bo->temperature);
+	else $temp= str_replace(',', '.', 	$bo->temperature);
+	
 //Récupération des valeurs :
 $longitude=$bo->longitude;
 $latitude=$bo->latitude;
