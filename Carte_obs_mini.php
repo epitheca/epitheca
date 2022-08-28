@@ -59,7 +59,7 @@ if ($nbr_valide<>0)
 		{
 			$x=($xpx*($longi_valide[$j]+6.458496)/17.532715)-2;
 			$y=($ypx*(51.237159-$lati_valide[$j])/10.716678)-2;
-			imagecopy($image, $point_valide, $x ,$y, 0, 0, 15, 15);
+			imagecopy($image, $point_valide, (int)$x ,(int)$y, 0, 0, 15, 15);
 		}
 	}
 
