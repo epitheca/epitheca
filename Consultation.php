@@ -135,15 +135,24 @@ else
 //Agrégation de la requête
  $requete="$requete_groupee ORDER by date DESC, longitude, latitude, Date DESC LIMIT $debut, $nombre_resultats";
 
-//GROUP BY info_1, info_2, obs_1, obs_2, obs_3,origineDonnee, numero, remarques, type_donnees, sexe, abondance, espece, obs_1, date, longitude, latitude, corine_1, corine_2, corine_3, corine_4, vent, meteo, temperature, riviere, route 
-
 //Calcul du nombre de fiches
-$num_rows = $bd->nbResultats ($bd->execRequete("$requete_groupee ORDER by date DESC, longitude, latitude"));
-
-//GROUP BY obs_1, obs_2, obs_3, origineDonnee, date, longitude, latitude, corine_1, corine_2, corine_3, corine_4, vent, meteo, temperature, riviere, route 
+$requete_nbr_fiches = "SELECT date, latitude, longitude 
+	FROM donnees
+	WHERE 
+	(obs_1= '$code_obs' 
+	OR obs_2= '$code_obs' 
+	OR obs_3= '$code_obs') 
+	AND date BETWEEN '$dateenmin' AND '$dateenmax'
+	AND latitude BETWEEN '$latitude_Y' AND '$latitude_X' 
+	AND longitude BETWEEN '$longitude_X' AND '$longitude_Y'
+	$filtre GROUP BY date, latitude, longitude";
+$num_fiches=$bd->nbResultats ($bd->execRequete ($requete_nbr_fiches));
 
 //Calcul du nombre de données
 $num_donnees = $bd->nbResultats ($bd->execRequete ($requete_groupee));
+
+$num_rows=$num_fiches;
+
 include ("Consultation_affichage_fiches.php");
 include ("Consultation_affichage_extraction.php");
 include ("Consultation_formulaire.php");

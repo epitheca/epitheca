@@ -19,7 +19,7 @@ This file is part of epitheca.
 <?php
 
 //Requete
-$requete="SELECT * 
+$requete="SELECT date, longitude, latitude
 FROM donnees
 WHERE 
 (obs_1= '$code_obs' 
@@ -29,14 +29,13 @@ AND date BETWEEN '$dateenmin' AND '$dateenmax'
 AND latitude BETWEEN '$latitude_Y' AND '$latitude_X' 
 AND longitude BETWEEN '$longitude_X' AND '$longitude_Y'
 $filtre
-ORDER by numero DESC, date DESC, longitude, latitude, date DESC LIMIT $debut, $nombre_resultats";
+GROUP BY date, longitude, latitude 
+ORDER by date DESC, longitude, latitude LIMIT $debut, $nombre_resultats";
 
-
-//GROUP BY date, longitude, latitude  
 //Affichage des fiches
 
 //Ajout de la pagination
-if ($num_rows<>0)
+if ($num_fiches<>0)
 {
 //echo '<CENTER>';
 //Début du formulaire pour garder la requête groupée en cas de multi page
@@ -134,8 +133,23 @@ $nbr= $bd->nbResultats($resultat2);
 				<?php echo $liste;?></span></span>
 				<?php
 				echo"<br>";
-				//Recherche de formulaire spécial
-				$completer="Ajout.php?mode=completer&amp;numero=$bo->numero";
+				//Recherche du numéro
+					//Requete
+					$requete_nu="SELECT numero
+							FROM donnees
+							WHERE 
+							(obs_1= '$code_obs' 
+							OR obs_2= '$code_obs' 
+							OR obs_3= '$code_obs') 
+							AND date BETWEEN '$dateenmin' AND '$dateenmax'
+							AND latitude BETWEEN '$latitude_Y' AND '$latitude_X' 
+							AND longitude BETWEEN '$longitude_X' AND '$longitude_Y'
+							$filtre";
+					$resultat_nu = $bd->execRequete ($requete_nu); 
+					while ($bo_nu = $bd->objetSuivant ($resultat_nu))
+					{
+				$completer="Ajout.php?mode=completer&amp;numero=$bo_nu->numero";
+			}
 				?>
 				<a href="<?php echo $completer;?>" class="lien_fonce">Voir la fiche /<br>Compléter</a><br>
 				<?php
