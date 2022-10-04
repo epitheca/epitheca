@@ -41,7 +41,6 @@ if ($_POST['valider']) {
     $curlResponse = curl_exec($ch);
     
     $captchaResponse = json_decode($curlResponse, true);
-        
     if ($captchaResponse['success'] == '1' && $captchaResponse['action'] == $action && $captchaResponse['score'] >= 0.5 && $captchaResponse['hostname'] == $_SERVER['SERVER_NAME']) {
 	
 	include ("Session_creation_compte_3_premier_mail.php");

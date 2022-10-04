@@ -23,7 +23,7 @@ $req = $bd->execRequete ($requete);
 	<script type="text/javascript">
 			<!--
 			window.alert("<?php echo "Un observateur avec cet email existe déjà." ?>");
-			window.location.replace("Observateurs_maj_admin.php?mode=MAJ&codeobsamaj=<?php echo $controleemail->code_obs;?>");
+			window.location.replace("https://epitheca.fr");
 			//-->
 			</script>
 		<?php
@@ -50,11 +50,11 @@ $req = $bd->execRequete ($requete);
 
 <!--Captcha -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?render=<?php CLE_reCAPTCHA_site ?>"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=<?php $CLE_reCAPTCHA_site ?>"></script>
 
 <script>
         grecaptcha.ready(function () {
-            grecaptcha.execute('<?php CLE_reCAPTCHA_site ?>', { action: 'contact' }).then(function (token) {
+            grecaptcha.execute('<?php echo $CLE_reCAPTCHA_site ;?>', { action: 'contact' }).then(function (token) {
                 var recaptchaResponse = document.getElementById('recaptchaResponse');
                 recaptchaResponse.value = token;
             });
