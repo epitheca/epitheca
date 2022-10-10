@@ -22,7 +22,7 @@ Entete ("Base de données de l'association des naturalistes vendéens", "Quoi de
 
 			<br>Le code est basé sur la base de données dévelloppée pour l'assocation Les Naturalistes Vendéens.
 			<br>						
-			<br><br>La base est dévelopée en PHP 7 et produit un HTML5 et CSS3.
+			<br><br>La base est dévelopée en PHP 8 et produit un HTML5 et CSS3.
 			
 			<br><br>
 			<img src="images/apache.png" alt="Chargement en cours" style="width:100px;margin-top:8px;margin-right:8px;">

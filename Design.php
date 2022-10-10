@@ -104,7 +104,7 @@ function PiedDePage ($session, $code_obs, $bd)
 	
 //Création liens pour le pied de page
  $admin= Ancre_renomme ("mailto:contact@epitheca.fr", "Contact");
- $quoideneuf= Ancre_renomme ("./quoideneuf.php", "Version 1.0");  
+ $quoideneuf= Ancre_renomme ("./quoideneuf.php", "Version 1.0.12");  
  $observateurs=Ancre_renomme("Observateurs.php","Gestion observateurs");
  $statistiques=Ancre_renomme("Stats_admin.php","Statistiques");
 	
