@@ -1,7 +1,6 @@
 <?php
 session_start();
 require("Util.php");
-require_once ("Tableau.class.php");
 include ("Listes.php");
 
 // Connexion à la base
@@ -82,15 +81,15 @@ if ($mode=="sup-droit")
 		{
 		$code=urlEncode ($bo->code_obs);
 	   $mode="MAJ";
-	   $texte = Ancre_renomme ("Observateurs_maj_admin.php?mode=$mode&codeobsamaj=$code", "$bo->prenom $bo->nom");
+	   $texte = "$bo->prenom $bo->nom";
 	  	   
 	   //Calcul des chiffres
 	  $nbrtotal = Calcdontotal ($bo->code_obs, '', $bd);
       
 	  //Ajout du mot données
 	  if ($nbrtotal==1) $nbrtotal .=" donnée";
-	  if ($nbrtotal==0) $nbrtotal="<a href='Observateurs.php?mode=sup&code_obs=$code'>Supprimer</a>";
-	  if ($nbrtotal>1) $nbrtotal .=" données";
+	  else if ($nbrtotal==0) $nbrtotal="<a href='Observateurs.php?mode=sup&code_obs=$code'>Supprimer</a>";
+	  else if ($nbrtotal>1) $nbrtotal .=" données";
       	   
 	   // Recherche du nombre de connexion
 		$resultatobs = $bd->execRequete ("SELECT COUNT(*) AS connexions FROM connexions WHERE code_obs LIKE '$bo->code_obs'"); 
@@ -98,8 +97,8 @@ if ($mode=="sup-droit")
      	$nombre="$bobs->connexions";
      	//Ajout du mot connexions
 	  if ($nombre==1) $nombre .=" connexion";
-	  if ($nombre==0) $nombre="";
-	  if ($nombre>1) $nombre .=" connexions";
+	  else if ($nombre==0) $nombre="";
+	  else if ($nombre>1) $nombre .=" connexions";
      		   
 	  	?>
 	  	<div class="tableau-observateurs-1"><?php echo $texte;?></div>
