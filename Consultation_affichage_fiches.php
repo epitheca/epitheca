@@ -83,7 +83,7 @@ if ($num_fiches<>0)
 				while ($bo = $bd->objetSuivant ($resultat))
 				{
 					//Regroupement par fiche
-					$requete2="SELECT date, latitude, longitude, COUNT(numero) 
+					$requete2="SELECT date, latitude, longitude, COUNT(numero) as nbr 
 FROM donnees
 WHERE 
 (obs_1= '$code_obs' 
@@ -97,7 +97,6 @@ GROUP BY date, latitude, longitude
 ORDER by date DESC, longitude, latitude, date LIMIT $debut, $nombre_resultats";
 
 $resultat2 = $bd->execRequete ($requete2); 
-$nbr= $bd->nbResultats($resultat2);
 
 					//Transformation de la date
 					$datefr =dateservertosite ($bo->date);
@@ -113,10 +112,7 @@ $nbr= $bd->nbResultats($resultat2);
 					echo "<br>"."lat: $bo->latitude";
 					
 					echo"<br>";
-					
-					//Orthographe
-					if ($nbr==1) $ortho="";
-					else $ortho="s";
+									
 					
 					echo "<br>";
 					//Création des listes d'espèces
@@ -128,6 +124,12 @@ $nbr= $bd->nbResultats($resultat2);
                         $spscien=ChercheSpavecCode ($bs->espece, $bd);
                         $liste .="$spscien->NOM_VALIDE<br>";
 					}
+					//Calcul du nombre de données
+					$data=mysqli_fetch_assoc($bd->execRequete ("SELECT COUNT(numero) as nbr FROM donnees WHERE latitude='$bo->latitude' AND longitude='$bo->longitude' AND (obs_1='$code_obs' OR obs_2='$code_obs' OR obs_3='$code_obs') AND date='$bo->date'"));
+					$nbr=$data['nbr'];
+						//Orthographe
+						if ($nbr==1) $ortho="";
+						else $ortho="s";
 				?>
 				<span class="info-droite-gauche" href="#"><?php echo "$nbr donnée$ortho";?><span>
 				<?php echo $liste;?></span></span>
@@ -141,11 +143,9 @@ $nbr= $bd->nbResultats($resultat2);
 							(obs_1= '$code_obs' 
 							OR obs_2= '$code_obs' 
 							OR obs_3= '$code_obs') 
-							AND date BETWEEN '$dateenmin' AND '$dateenmax'
-							AND latitude BETWEEN '$latitude_Y' AND '$latitude_X' 
-							AND longitude BETWEEN '$longitude_X' AND '$longitude_Y'
-							$filtre";
-					$resultat_nu = $bd->execRequete ($requete_nu); 
+							AND date = '$bo->date'
+							AND latitude = $bo->latitude AND longitude=$bo->longitude";
+					$resultat_nu = $bd->execRequete ($requete_nu);
 					while ($bo_nu = $bd->objetSuivant ($resultat_nu))
 					{
 				$completer="Ajout.php?mode=completer&amp;numero=$bo_nu->numero";
