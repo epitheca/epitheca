@@ -19,7 +19,7 @@ This file is part of epitheca.
 
 <?php
 // Formulaire pour la saisie des login et mot de passe
-function FormIdentification($nom_script, $email_defaut="",$bd)
+function FormIdentification($nom_script, $email_defaut,$bd)
 {	
 //Inclusion de l'entête pour la session
 include("Session_entete.html");
