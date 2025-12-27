@@ -1,9 +1,6 @@
 <?php
-// Inclusion des utilitaires du site NV
-
-// Les constantes -> chemin en dur
-require_once ("");
-
+// Inclusion des utilitaires de la base de données epitheca
+define('CHEMIN', '/var/www/epitheca/');
 
 // Les fonctions générales
 require_once (CHEMIN."HTML.php");  
@@ -21,10 +18,9 @@ require_once (CHEMIN."Session.php");
 require_once (CHEMIN."GestionErreurs.php");
 require_once (CHEMIN."GestionExceptions.php");
 
-// Si on est en échappement automatique, on rectifie...
-// NB: on peut optimiser en utilisant des références si nécessaire.
-
-if (get_magic_quotes_gpc())
+// Correction pour PHP 8+ : Les magic quotes n'existent plus.
+// On vérifie si la fonction existe avant de l'appeler pour éviter l'erreur fatale.
+if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
 {
   $_POST = NormalisationHTTP($_POST);
   $_GET = NormalisationHTTP($_GET);
