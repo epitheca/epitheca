@@ -32,7 +32,7 @@ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
 }
 
 // Réglage du niveau d'erreur
-error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL);
 
 // Gestionnaire d'erreurs personnalisé. Voir GestionErreurs.php.
 set_error_handler("GestionErreurs");

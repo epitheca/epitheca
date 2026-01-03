@@ -11,19 +11,8 @@ require("Util.php");
 <link rel='stylesheet' HREF='<?php echo CHEMIN_URL;?>Css.css' TYPE='text/css'>
 <link rel='stylesheet' HREF='<?php echo CHEMIN_URL;?>Css_fenetre_nodal.css' TYPE='text/css'>
 
-<!--Captcha -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $CLE_reCAPTCHA_site; ?>"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-<script>
-        grecaptcha.ready(function () {
-            grecaptcha.execute('<?php echo $CLE_reCAPTCHA_site; ?>', { action: 'contact' }).then(function (token) {
-                var recaptchaResponse = document.getElementById('recaptchaResponse');
-                recaptchaResponse.value = token;
-            });
-        });
-</script>
-    
 <!-- Insertion de l'icone-->
 <link rel="icon" href="images/favicon.ico" />
 <TITLE>epitheca.fr - vos données naturalistes sous votre controle</TITLE>
@@ -42,7 +31,9 @@ require("Util.php");
     
     <form id="nouvelobs" action="Session_creation_compte_2_verification.php" method="post" >
     <input type="email" class="session" name="email" id="email" placeholder="Votre adresse de courriel">
-    <input type="hidden" name="token" id="recaptchaResponse" />
+	
+	<div class="cf-turnstile" data-sitekey="<?php echo CL_TURNSTILE_SITEKEY; ?>"></div>
+    
     <input type="submit" class="vert" id="button" name="valider" value="Ouvrir un compte"/>
     </form>
        <br><br><br><br>

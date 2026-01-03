@@ -1,58 +1,59 @@
 <?php
 require("Util.php");
 
-// Connexion à la base
-$bd = Connexion (NOM, PASSE, BASE, SERVEUR);
+// 1. Vérification du Captcha Turnstile en premier
+$turnstileToken = $_POST['cf-turnstile-response'] ?? '';
+$isValidCaptcha = false;
 
-if ($_POST['valider']) {
-    $email   = $_POST['email'];
-    
-    // On va quand même vérifier que cet email n'est pas déjà inséré
-      $controleemail=Chercheobservateurs($email, $bd, FORMAT_OBJET);
-      if (isset($controleemail))
-      {
-      if ($email == $controleemail->email)
-	{
-		?>
-	<script type="text/javascript">
-			<!--
-			window.alert("<?php echo "Un observateur avec cet email existe déjà." ?>");
-			window.location.replace("https://epitheca.fr");
-			//-->
-			</script>
-		<?php
-	}}
-    //C'est bon, on continue
-    else
-    {
-    $token  = $_POST['token'];
-    $action = "contact";
-   
+if (!empty($turnstileToken)) {
     $curlData = array(
-        'secret' => $CLE_reCAPTCHA_secrete,
-        'response' => $token
+        'secret'   => CL_TURNSTILE_SECRETKEY, // Utilisation de votre constante
+        'response' => $turnstileToken,
+        'remoteip' => $_SERVER['REMOTE_ADDR']
     );
-    
+
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+    curl_setopt($ch, CURLOPT_URL, "https://challenges.cloudflare.com/turnstile/v0/siteverify");
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($curlData));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $curlResponse = curl_exec($ch);
-    
-    $captchaResponse = json_decode($curlResponse, true);
-    if ($captchaResponse['success'] == '1' && $captchaResponse['action'] == $action && $captchaResponse['score'] >= 0.5 && $captchaResponse['hostname'] == $_SERVER['SERVER_NAME']) {
-	
-	include ("Session_creation_compte_3_premier_mail.php");
-	}
-	else {
-		//redirection en dehors du site
-        ?>
-		<SCRIPT LANGUAGE="JavaScript">
-			alert="Vous avez été reconnu comme étant un robot par le système de sécurité.";
-			document.location.href="https://epitheca.fr"
-		</SCRIPT>
-				<?php
+    curl_close($ch);
+
+    $captchaResult = json_decode($curlResponse, true);
+    if ($captchaResult['success']) {
+        $isValidCaptcha = true;
     }
-}}
+}
+
+// 2. Traitement du formulaire si le captcha est valide
+if ($isValidCaptcha) {
+    if (isset($_POST['valider'])) {
+        $bd = Connexion(NOM, PASSE, BASE, SERVEUR);
+        $email = $bd->prepareChaine($_POST['email']);
+        
+        // On vérifie si cet email existe déjà
+        $controleemail = Chercheobservateurs($email, $bd, FORMAT_OBJET);
+        
+        if (isset($controleemail) && $email == $controleemail->email) {
+            ?>
+            <script type="text/javascript">
+                alert("Un observateur avec cet email existe déjà.");
+                window.location.replace("https://epitheca.fr");
+            </script>
+            <?php
+        } else {
+            // C'est bon, on envoie le mail de création
+            include("Session_creation_compte_3_premier_mail.php");
+        }
+    }
+} else {
+    // Échec du captcha : redirection
+    ?>
+    <script type="text/javascript">
+        alert("La vérification de sécurité a échoué (Turnstile). Veuillez réessayer.");
+        document.location.href="https://epitheca.fr";
+    </script>
+    <?php
+}
 ?>
