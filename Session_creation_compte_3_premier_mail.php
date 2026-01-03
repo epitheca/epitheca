@@ -20,28 +20,67 @@ $bd->execRequete($requete);
 
 // On ajoute le préfixe pour le lien
 $pass_lien = "EPI$pass";
-$subject = "epitheca.fr : Votre compte";
 
 // Construction du message avec HTML propre
 // Note : urlencode($email) est crucial pour la validité du lien
 $lien_activation = CHEMIN_URL . "Session_creation_compte_4_confirmation.php?m=" . urlencode($email) . "&u=" . $pass_lien;
 
+$subject = "🌿 epitheca.fr : Finalisez votre inscription";
+
+// Utilisation de couleurs douces et naturelles (vert naturaliste)
+$couleur_principale = "#4CAF50"; 
+$couleur_fond = "#f4f4f4";
+
 $message = "
+<!DOCTYPE html>
 <html>
-<body>
-<div style='text-align:center;'>
-    <p>Base de données naturalistes epitheca.fr</p>
-    <img src='" . CHEMIN_URL . "images/logo200pt.png' alt='Logo Epitheca'>
-</div>
-<p style='text-align:center;'>Ceci est un message automatique.</p>
-<p>Bonjour,</p>
-<p>Vous avez demandé la création d'un compte sur la base de données naturalistes <em>epitheca.fr</em></p>
-<div style='width:100%; background-color:#B7F57C; text-align:center; padding:15px; border-radius:5px;'>
-    <a href='$lien_activation' style='font-weight:bold; color:black; text-decoration:none;'>Cliquez sur ce lien pour finaliser votre inscription.</a>
-</div>
-<p>Attention, ce lien est valable 30 minutes.</p>
-<p>En cas de problème, vous pouvez copier ce lien dans votre navigateur :<br>$lien_activation</p>
-<p>Je reste à votre disposition pour plus de renseignements.<br><br>Mathieu MONCOMBLE</p>
+<head>
+<meta charset='utf-8'>
+</head>
+<body style='margin: 0; padding: 0; background-color: $couleur_fond; font-family: Arial, sans-serif;'>
+    <table border='0' cellpadding='0' cellspacing='0' width='100%'>
+        <tr>
+            <td align='center' style='padding: 20px 0;'>
+                <table border='0' cellpadding='0' cellspacing='0' width='600' style='background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+                    <tr>
+                        <td align='center' style='padding: 40px 0 20px 0; background-color: #ffffff;'>
+                            <img src='" . CHEMIN_URL . "images/logo200pt.png' alt='Epitheca Logo' width='150' style='display: block;'>
+                            <h1 style='color: #333; font-size: 24px; margin-top: 20px;'>Bienvenue sur Epitheca</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 20px 40px; color: #555; line-height: 1.6;'>
+                            <p style='font-size: 16px;'>Bonjour,</p>
+                            <p style='font-size: 16px;'>Vous avez demandé la création d'un compte sur la base de données naturalistes <strong>epitheca.fr</strong>. Nous sommes ravis de vous compter parmi nous !</p>
+                            <p style='font-size: 16px;'>Pour valider votre adresse e-mail et finaliser votre inscription, cliquez simplement sur le bouton ci-dessous :</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align='center' style='padding: 30px 0;'>
+                            <a href='$lien_activation' style='background-color: $couleur_principale; color: #ffffff; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px; display: inline-block;'>Activer mon compte</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 0 40px 20px 40px; color: #999; font-size: 13px; text-align: center;'>
+                            <p>Attention : ce lien est valable <strong>30 minutes</strong>.<br>Ceci est un message automatique, merci de ne pas y répondre.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 20px 40px; border-top: 1px solid #eee; color: #999; font-size: 12px;'>
+                            Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :<br>
+                            <a href='$lien_activation' style='color: $couleur_principale;'>$lien_activation</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 20px 40px; background-color: #f9f9f9; color: #777; font-size: 14px;'>
+                            À très bientôt,<br>
+                            <strong>Mathieu MONCOMBLE</strong>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>";
 
