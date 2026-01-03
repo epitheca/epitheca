@@ -3,7 +3,10 @@
 define('CHEMIN', '/var/www/epitheca/');
 
 // Les fonctions générales
-require_once (CHEMIN."HTML.php");  
+require_once (CHEMIN."HTML.php");
+
+// Les constantes
+require_once (CHEMIN."Constantes.php");
 
 // Modules et classes
 require_once (CHEMIN."BDMySQL.class.php");
