@@ -1,6 +1,6 @@
 <?php
 // Inclusion des utilitaires de la base de données epitheca
-define('CHEMIN', '/var/www/epitheca/');
+define('CHEMIN', '');
 
 // Les fonctions générales
 require_once (CHEMIN."HTML.php");
