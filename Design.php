@@ -169,7 +169,7 @@ function PiedDePage ($session, $code_obs, $bd)
 		<br><br>
 		<a href="Charte.php">Mentions légales</a>
 		<br><br>
-		Copyright © <a href="https://framasphere.org/people/2027e100824e0132ae4e2a0000053625">Mathieu MONCOMBLE</a> 2009-2022
+		Copyright © <a href="https://github.com/epitheca/">Mathieu MONCOMBLE</a> 2009-2026
 		<br><br>
 	<a class="github-button" href="https://github.com/epitheca" data-color-scheme="no-preference: light; light: light; dark: light;" data-size="large" aria-label="Follow @epitheca on GitHub">Follow @epitheca</a>
 
