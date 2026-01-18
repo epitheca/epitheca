@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+    <?mso-application progid="Excel.Sheet"?>
+    <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+     xmlns:o="urn:schemas-microsoft-com:office:office"
+     xmlns:x="urn:schemas-microsoft-com:office:excel"
+     xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+     xmlns:html="http://www.w3.org/TR/REC-html40">
+     <Worksheet ss:Name="Donnees_Epitheca">
+     <Table><Row ss:StyleID="bold"><Cell><Data ss:Type="String">numero</Data></Cell><Cell><Data ss:Type="String">date</Data></Cell><Cell><Data ss:Type="String">longitude</Data></Cell><Cell><Data ss:Type="String">latitude</Data></Cell><Cell><Data ss:Type="String">espece</Data></Cell><Cell><Data ss:Type="String">effectif</Data></Cell><Cell><Data ss:Type="String">sexe</Data></Cell><Cell><Data ss:Type="String">Stade</Data></Cell><Cell><Data ss:Type="String">Condition</Data></Cell><Cell><Data ss:Type="String">Obs 1</Data></Cell><Cell><Data ss:Type="String">Obs 2</Data></Cell><Cell><Data ss:Type="String">Obs 3</Data></Cell><Cell><Data ss:Type="String">Obs 4</Data></Cell><Cell><Data ss:Type="String">Remarque</Data></Cell><Cell><Data ss:Type="String">Corine 1</Data></Cell><Cell><Data ss:Type="String">Corine 2</Data></Cell><Cell><Data ss:Type="String">Corine 3</Data></Cell><Cell><Data ss:Type="String">Corine 4</Data></Cell><Cell><Data ss:Type="String">route</Data></Cell><Cell><Data ss:Type="String">riviere</Data></Cell><Cell><Data ss:Type="String">vent</Data></Cell><Cell><Data ss:Type="String">meteo</Data></Cell><Cell><Data ss:Type="String">temp</Data></Cell><Cell><Data ss:Type="String">remarques</Data></Cell></Row></Table></Worksheet></Workbook>

@@ -54,20 +54,23 @@ This file is part of epitheca.
 		csv_obs ($requete_groupee, $code_obs, $bd);
 		
 		//Création du nom de fichier
-		if ($num_donnees>5000) $nom_fichier="$code_obs.zip";
-		else $nom_fichier="$code_obs.csv";
+		if ($num_donnees>5000) {
+			$nom_fichier="$code_obs.zip";
+			$imagefichier="images/zip.png";
+		} else {
+			$nom_fichier="$code_obs.xls";
+			$imagefichier="images/ods.png";
+		}
 		
 		//Création de l'URL
 		$url="./telechargements/$nom_fichier";
 		
 		//Recherche de la taille du fichier
 		$taille = taille($url);
-		//choix de l'image pour les données
-		if ($num_donnees<5000) $imagefichier= "images/csv.png";
-		else $imagefichier= "images/zip.png";
+		
 		?>
 		<center>
-		<a class="info-image" href="<?php echo $url;?>"><img src="<?php echo $imagefichier;?>"></a><br>
+		<a class="info-image" href="<?php echo $url;?>"download="<?php echo $nom_fichier; ?>"><img src="<?php echo $imagefichier;?>"width="64" height="64" alt="Icône ODS"></a><br>
 		<?php echo $taille;?>
 		</center>
 		<br>
@@ -78,9 +81,9 @@ This file is part of epitheca.
 		{
 		?>
 		<br>
-		Le fichier d'extraction n'est pas créé car la requête concerne plus de 500 données si vous souhaitez le créer, cliquez ci-dessous.
+		Le fichier de tableur n'est pas créé car la requête concerne plus de 500 données si vous souhaitez le créer, cliquez ci-dessous.
 		<br>
-		<INPUT type="submit" name="csv_creer" value="Créer le CSV"><br>
+		<INPUT type="submit" name="csv_creer" value="Générer l'extraction"><br>
 		</form>
 <?php
 	}
