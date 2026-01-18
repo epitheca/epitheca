@@ -28,50 +28,49 @@ function SessionValide ($session, $bd)
 }
 
 // Tentative de création d'une session
+// Tentative de création d'une session
 function CreerSession ($bd, $email, $mot_de_passe, $duree, $id_session)
 {
-  $observateurs = Chercheobservateurs ($email, $bd);
+  $observateur = Chercheobservateurs ($email, $bd);
 
-  // L'observateurs existe-t-il ?
-  if (is_object($observateurs))
+  // L'observateur existe-t-il ?
+  if (is_object($observateur))
     {
-      // Vérification du mot de passe
-      if ($observateurs->mot_de_passe == md5($mot_de_passe))
-	{
-		// On insère dans la table SessionWeb, pour 1 heure 
-		date_default_timezone_set('GMT');
-		$maintenant =date("U");
-		$temps_limite = $maintenant + $duree;
-		$email = $bd->prepareChaine($email);
-		$nom = $bd->prepareChaine($observateurs->nom);
-		$prenom = $bd->prepareChaine($observateurs->prenom);
+      // VERIFICATION SECURISEE DU MOT DE PASSE (PHP 8+)
+      // On compare le mot de passe "brut" avec le hash stocké en base
+      if (password_verify($mot_de_passe, $observateur->mot_de_passe))
+      {
+        // On insère dans la table SessionWeb
+        date_default_timezone_set('GMT');
+        $maintenant = date("U");
+        $temps_limite = $maintenant + $duree;
+        
+        $email_propre = $bd->prepareChaine($email);
+        $nom = $bd->prepareChaine($observateur->nom);
+        $prenom = $bd->prepareChaine($observateur->prenom);
 
-		//Destruction de la session précédente
-		$requete  = "DELETE FROM sessionweb "
-		. "WHERE email='$email'";
-		$resultat = $bd->execRequete ($requete);
+        // Destruction de la session précédente pour cet email
+        $requete = "DELETE FROM sessionweb WHERE email='$email_propre'";
+        $bd->execRequete($requete);
 
-		//Création d'une nouvelle session
-		$insSession = "INSERT INTO sessionweb (id_session, email, nom, "
-	    . "prenom, temps_limite) VALUES ('$id_session', "
-	    . "'$email','$nom','$prenom', '$temps_limite')";       
-		$resultat = $bd->execRequete ($insSession);
-	  
-		//insertion pour les stats
-		$code_obs= Chercheobservateurs($email,$bd);
-		$code_obs=$code_obs->code_obs;
-		$insConnexions = "INSERT INTO connexions (code_obs) VALUES ('$code_obs')";       
-		$resultat = $bd->execRequete ($insConnexions);
+        // Création d'une nouvelle session
+        $insSession = "INSERT INTO sessionweb (id_session, email, nom, prenom, temps_limite) "
+                    . "VALUES ('$id_session', '$email_propre', '$nom', '$prenom', '$temps_limite')";       
+        $bd->execRequete($insSession);
+      
+        // Insertion pour les statistiques de connexion
+        $code_obs = $observateur->code_obs;
+        $insConnexions = "INSERT INTO connexions (code_obs) VALUES ('$code_obs')";       
+        $bd->execRequete($insConnexions);
 
-		return TRUE;
-	}   
-
-	return FALSE;
+        return TRUE;
+      }   
+      return FALSE;
     }      
-  else
-    {
-    return FALSE;
-    }}
+  else {
+      return FALSE;
+  }
+}
 
 // Fonction de contrôle d'accès
 function ControleAcces ($nom_script, $info_login, $id_session, $bd)

@@ -1,41 +1,35 @@
 <?php
 require("Util.php");
-// Connexion à la base
-$bd = Connexion (NOM, PASSE, BASE, SERVEUR);
-//Capture des valeurs
-    $email   = $_POST['mail'];
-    $pass = $_POST['pass'];
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
+$bd = Connexion(NOM, PASSE, BASE, SERVEUR);
 
-//Supression de la table temporaire
-$requete  = "DELETE FROM observateurs_temporaire WHERE mail='$email'";
-$req = $bd->execRequete ($requete);   
+// 1. Capture et nettoyage immédiat des valeurs (Protection injection SQL)
+$email  = $bd->prepareChaine($_POST['mail']);
+$pass   = $_POST['pass']; // On ne nettoie pas le pass ici car on va le hasher
+$nom    = $bd->prepareChaine($_POST['nom']);
+$prenom = $bd->prepareChaine($_POST['prenom']);
 
-//Ajout de l'observetur dans la base
-// On va quand même vérifier que cet email n'est pas déjà inséré
-      $controleemail=Chercheobservateurs($email, $bd, FORMAT_OBJET);
-      if (isset($controleemail))
-      {
-      if ($email == $controleemail->email)
-	{
-		?>
-	<script type="text/javascript">
-			<!--
-			window.alert("<?php echo "Un observateur avec cet email existe déjà." ?>");
-			window.location.replace("https://epitheca.fr");
-			//-->
-			</script>
-		<?php
-	}}
-	   else
-	{
- $motCrypte = md5 ($pass);
-	  $requete  = "INSERT INTO observateurs (nom, prenom, email, "
-	    . "mot_de_passe) "
-	    . "VALUES ('$nom', '$prenom', "
-	    . "'$email', '$motCrypte')";
-	  $req = $bd->execRequete ($requete);
+// 2. Suppression de la table temporaire
+$requete = "DELETE FROM observateurs_temporaire WHERE mail='$email'";
+$bd->execRequete($requete);   
+
+// 3. Vérification de l'existence de l'email
+$controleemail = Chercheobservateurs($email, $bd, FORMAT_OBJET);
+
+if (isset($controleemail) && $email == $controleemail->email) {
+    ?>
+    <script type="text/javascript">
+        alert("Un observateur avec cet email existe déjà.");
+        window.location.replace("https://epitheca.fr");
+    </script>
+    <?php
+    exit; // On arrête le script ici
+} else {
+    // 4. Hachage sécurisé du mot de passe (PHP 8+)
+    $motCrypte = password_hash($pass, PASSWORD_DEFAULT);
+    
+    $requete = "INSERT INTO observateurs (nom, prenom, email, mot_de_passe) "
+             . "VALUES ('$nom', '$prenom', '$email', '$motCrypte')";
+    $bd->execRequete($requete);
 }
 ?>
 
@@ -48,92 +42,53 @@ $req = $bd->execRequete ($requete);
 <link rel='stylesheet' HREF='<?php echo CHEMIN_URL;?>Css.css' TYPE='text/css'>
 <link rel='stylesheet' HREF='<?php echo CHEMIN_URL;?>Css_fenetre_nodal.css' TYPE='text/css'>
 
-<!--Captcha -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?render=<?php $CLE_reCAPTCHA_site ?>"></script>
-
-<script>
-        grecaptcha.ready(function () {
-            grecaptcha.execute('<?php echo $CLE_reCAPTCHA_site ;?>', { action: 'contact' }).then(function (token) {
-                var recaptchaResponse = document.getElementById('recaptchaResponse');
-                recaptchaResponse.value = token;
-            });
-        });
-</script>
-     
-<!-- Insertion de l'icone-->
 <link rel="icon" href="images/favicon.ico" />
-<TITLE>epitheca.fr - vos données naturalistes sous votre controle</TITLE>
+<TITLE>epitheca.fr - Inscription réussie</TITLE>
 </HEAD>
 <BODY>
 
     <div class="connexion-gauche">
-			<IMG SRC="images/logo.png" ALT="Chargement..." width="90%" >
-			<p style="font-size:1vw">Vos données naturalistes sous votre controle</p>
-	</div>
-    <div class="connexion-droit">
-        <span class="titre-connexion">Création de votre compte</span>
-       Votre compte est bien créé !<br>
-       <form method="post" action="index.php">
-		<input type="submit" value="C'est parti ! Je me connecte !" class="vert"><br><br>
-		</form>
-       <?php
-   //Création du mail  
-$subject="epitheca.fr - Bienvenue !";
-
-$message="
-<HTML>
-<HEAD>
-<meta http-equiv='Content-Type' content='text/html;charset=UTF-8' > 
-</HEAD>
-<BODY>
-<center>Base de données naturalistes epitheca.fr<br>
-<img src=\"https://epitheca.fr/images/logo200pt.png\"></center><br>
-
-Bonjour,<br>
-Bienvenue sur la base de données naturalistes qui respecte votre liberté !
-<br>
-<a href='https://epitheca.fr'>epitheca.fr</a> est une base de données naturalistes basée sur du code libre qui utilise les standards nationaux définis pour la gestion de la nature.
-<br>
-Nous vous invitons à prendre connaissance de <a hef='https://epitheca.fr/Charte.php'>la charte d'utilisation.</a>
-
-Je reste à votre disposition.<br>
-<br><br>
-
-Mathieu MONCOMBLE
-<br>
-</BODY>
-</HTML>	
-";
-
-$to = $email;
-	
-// Version MINE
-$headers = "MIME-Version: 1.0\n";
- 
-// en-têtes expéditeur
-$headers .= "From : $mail_administrateur\n";
- 
-// en-têtes adresse de retour
-$headers .= "Reply-to : $mail_administrateur\n";
- 
-// personnes en copie
-$headers .= "Bcc : $mail_administrateur\n";
- 
-// priorité urgente
-$headers .= "X-Priority : 3\n";
- 
-// type de contenu HTML
-$headers .= "Content-type: text/html; charset=utf-8\n";
- 
-// code de transportage
-$headers .= "Content-Transfer-Encoding: 8bit\n";
- 
- mail($to,$subject,$message, $headers);
-
-   ?>
+            <IMG SRC="images/logo.png" ALT="Logo" width="90%" >
+            <p style="font-size:1vw">Vos données naturalistes sous votre contrôle</p>
     </div>
-    </body>
-</html>
+    
+    <div class="connexion-droit">
+        <span class="titre-connexion">Félicitations !</span>
+        <p>Votre compte est bien créé !</p>
+        <form method="post" action="index.php">
+            <input type="submit" value="C'est parti ! Je me connecte !" class="vert"><br><br>
+        </form>
+
+<?php
+// 5. Envoi du mail de bienvenue (Headers corrigés avec \r\n et constantes)
+$subject = "epitheca.fr - Bienvenue !";
+$message = "
+<html>
+<body>
+    <div style='text-align:center;'>
+        <p>Base de données naturalistes epitheca.fr</p>
+        <img src='https://epitheca.fr/images/logo200pt.png'>
+    </div>
+    <p>Bonjour,</p>
+    <p>Bienvenue sur la base de données naturalistes qui respecte votre liberté !</p>
+    <p><a href='https://epitheca.fr'>epitheca.fr</a> utilise des standards nationaux et du code libre.</p>
+    <p>Consultez la <a href='https://epitheca.fr/Charte.php'>charte d'utilisation</a>.</p>
+    <p>À bientôt,<br>Mathieu MONCOMBLE</p>
+</body>
+</html>";
+
+$headers = "MIME-Version: 1.0\r\n";
+$headers .= "From: " . MAIL_ADMIN . "\r\n";
+$headers .= "Reply-To: " . MAIL_ADMIN . "\r\n";
+$headers .= "Bcc: " . MAIL_ADMIN . "\r\n";
+$headers .= "X-Priority: 3\r\n";
+$headers .= "Content-type: text/html; charset=utf-8\r\n";
+$headers .= "Content-Transfer-Encoding: 8bit\r\n";
+
+mail($email, $subject, $message, $headers);
+?>
+    </div>
+</BODY>
+</HTML>
 
 
